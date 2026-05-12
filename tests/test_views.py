@@ -32,6 +32,15 @@ def test_restaurant_page_renders_all_menu_pages(client):
     assert 'loading="eager"' in body
 
 
+def test_restaurant_page_uses_per_restaurant_favicon(client):
+    response = client.get(reverse("restaurant", args=["ehsanis-hot-kabob"]))
+    body = _body(response)
+    assert 'rel="icon"' in body
+    assert "menus/ehsanis-hot-kabob/favicon.ico" in body
+    assert "menus/ehsanis-hot-kabob/apple-touch-icon.png" in body
+    assert "data:image/svg+xml" not in body  # emoji fallback should be replaced
+
+
 def test_unknown_restaurant_returns_404(client):
     response = client.get("/no-such-place/")
     assert response.status_code == 404

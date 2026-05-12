@@ -27,6 +27,8 @@ RESTAURANTS = OrderedDict(
                     "008.webp",
                 ],
                 "pdf": "ehsanis-hot-kabob.pdf",
+                "favicon": "favicon.ico",
+                "apple_touch_icon": "apple-touch-icon.png",
             },
         ),
     ]

@@ -7,4 +7,5 @@ temp.db
 .env
 .git/
 .DS_Store
+.idea/
 staticfiles/

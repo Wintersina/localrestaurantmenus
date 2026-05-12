@@ -40,5 +40,7 @@ def restaurant(request, slug):
             "name": cfg["name"],
             "page_images": [asset_base + page for page in cfg["pages"]],
             "pdf_path": asset_base + cfg["pdf"],
+            "favicon": (asset_base + cfg["favicon"]) if cfg.get("favicon") else None,
+            "apple_touch_icon": (asset_base + cfg["apple_touch_icon"]) if cfg.get("apple_touch_icon") else None,
         },
     )
