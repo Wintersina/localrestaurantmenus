@@ -1,5 +1,7 @@
 """Development settings for localrestaurantmenus_project."""
 
+import copy
+
 from .base import *  # noqa: F401,F403
 
 DEBUG = True
@@ -12,3 +14,9 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+
+# Deep-copy before mutating: settings/__init__.py auto-imports this module,
+# so a direct mutation would leak the verbose formatter into the production
+# settings (they share the same dict object via `from .base import *`).
+LOGGING = copy.deepcopy(LOGGING)  # type: ignore[name-defined]
+LOGGING["handlers"]["stdout"]["formatter"] = "verbose"

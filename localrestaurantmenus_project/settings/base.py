@@ -105,3 +105,54 @@ STORAGES = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Logging
+# All app/framework logs go to stdout. In production they're emitted as JSON
+# with a `severity` field so Cloud Logging parses them as structured entries
+# (vs. flat textPayload). Override LOG_LEVEL via env (DEBUG/INFO/WARNING/...).
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "json": {
+            "()": "localrestaurantmenus_project.log_config.CloudRunJSONFormatter",
+        },
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name}: {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "stdout": {
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout",
+            "formatter": "json",
+        },
+    },
+    "root": {
+        "handlers": ["stdout"],
+        "level": LOG_LEVEL,
+    },
+    "loggers": {
+        # 4xx logs at WARNING, 5xx logs at ERROR with full traceback.
+        "django.request": {
+            "handlers": ["stdout"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "django.security": {
+            "handlers": ["stdout"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        # Silence the noisy per-request line from `runserver` (dev only).
+        "django.server": {
+            "handlers": ["stdout"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+    },
+}
