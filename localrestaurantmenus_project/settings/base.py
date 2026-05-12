@@ -14,6 +14,7 @@ DEBUG = os.environ.get("DEBUG", "False").lower() in {"1", "true", "yes", "on"}
 DEFAULT_ALLOWED_HOSTS = [
     "localrestaurantmenus.xyz",
     "www.localrestaurantmenus.xyz",
+    "localrestaurantmenus-13012736163.europe-west1.run.app",
     "127.0.0.1",
     "localhost",
 ]
