@@ -35,3 +35,11 @@ def test_restaurant_page_renders_all_menu_pages(client):
 def test_unknown_restaurant_returns_404(client):
     response = client.get("/no-such-place/")
     assert response.status_code == 404
+
+
+def test_favicon_served_inline(client):
+    response = client.get("/favicon.ico")
+    assert response.status_code == 200
+    assert response["Content-Type"] == "image/svg+xml"
+    assert b"<svg" in response.content
+    assert "max-age=" in response["Cache-Control"]

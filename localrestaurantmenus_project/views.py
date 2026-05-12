@@ -1,7 +1,19 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
+from django.views.decorators.cache import cache_control
 
 from localrestaurantmenus_project.restaurants import RESTAURANTS, get_restaurant
+
+
+_FAVICON_SVG = (
+    b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+    b'<text y=".9em" font-size="90">\xf0\x9f\x8d\xbd\xef\xb8\x8f</text></svg>'
+)
+
+
+@cache_control(public=True, max_age=60 * 60 * 24 * 30)
+def favicon(request):
+    return HttpResponse(_FAVICON_SVG, content_type="image/svg+xml")
 
 
 def home(request):
