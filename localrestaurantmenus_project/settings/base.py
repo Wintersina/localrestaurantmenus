@@ -14,7 +14,12 @@ DEBUG = os.environ.get("DEBUG", "False").lower() in {"1", "true", "yes", "on"}
 DEFAULT_ALLOWED_HOSTS = [
     "localrestaurantmenus.xyz",
     "www.localrestaurantmenus.xyz",
-    "localrestaurantmenus-13012736163.europe-west1.run.app",
+    # Allow any Cloud Run-generated URL for this service. Leading-dot wildcards
+    # match the domain itself plus all subdomains, so any region (us-east1,
+    # europe-west1, etc.) and any revision-suffixed URL is accepted. Safe here
+    # because the app has no auth, no email/URL generation, and no sensitive
+    # use of the Host header.
+    ".run.app",
     "127.0.0.1",
     "localhost",
 ]
